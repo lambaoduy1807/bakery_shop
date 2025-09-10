@@ -1,75 +1,83 @@
 import Header from "../../components/Header";
 import FoodList from"../../components/Food";
 import Footer from "../../components/Footer";
-
-
+import {getProducts} from"../../services/Products"
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const foods = [
-  {
-    id: 1,
-    name: "Pizza Hải Sản",
-    detail: "Pizza với hải sản tươi ngon, sốt đặc biệt.",
-    img: "/images/f1.png",
-    price: 17,
-  },
-  {
-    id: 2,
-    name: "Pizza Phô Mai",
-    detail: "Ngập tràn phô mai Mozzarella béo ngậy.",
-    img: "/images/f2.png",
-    price: 15,
-  },
-  {
-    id: 3,
-    name: "Pizza Bò BBQ",
-    detail: "Thịt bò nướng BBQ thơm lừng.",
-    img: "/images/f3.png",
-    price: 18,
-  },
-  {
-    id: 4,
-    name: "Pizza Gà Nướng",
-    detail: "Gà nướng sốt cay đậm đà.",
-    img: "/images/f4.png",
-    price: 16,
-  },
-  {
-    id: 5,
-    name: "Pizza Rau Củ",
-    detail: "Tươi mát với nhiều loại rau củ.",
-    img: "/images/f5.png",
-    price: 14,
-  },
-  {
-    id: 6,
-    name: "Pizza Xúc Xích",
-    detail: "Xúc xích Đức thơm ngon, giòn rụm.",
-    img: "/images/f6.png",
-    price: 15,
-  },
-  {
-    id: 7,
-    name: "Pizza Cá Ngừ",
-    detail: "Độc đáo với cá ngừ và phô mai.",
-    img: "/images/f7.png",
-    price: 17,
-  },
-  {
-    id: 8,
-    name: "Pizza Trứng",
-    detail: "Lạ miệng với trứng ốp la vàng óng.",
-    img: "/images/f8.png",
-    price: 13,
-  },
-  {
-    id: 9,
-    name: "Pizza Thập Cẩm",
-    detail: "Kết hợp đủ loại topping hấp dẫn.",
-    img: "/images/f9.png",
-    price: 19,
-  },
-];
+   const [foods, setFoods] = useState([]);
+    useEffect(() => {
+    // gọi API lấy page 1
+    getProducts(1)
+      .then((data) => setFoods(data))
+      .catch((err) => console.error("Lỗi khi load sản phẩm:", err));
+  }, []);
+//   const foods = [
+//   {
+//     id: 1,
+//     name: "Pizza Hải Sản",
+//     detail: "Pizza với hải sản tươi ngon, sốt đặc biệt.",
+//     img: "/images/f1.png",
+//     price: 17,
+//   },
+//   {
+//     id: 2,
+//     name: "Pizza Phô Mai",
+//     detail: "Ngập tràn phô mai Mozzarella béo ngậy.",
+//     img: "/images/f2.png",
+//     price: 15,
+//   },
+//   {
+//     id: 3,
+//     name: "Pizza Bò BBQ",
+//     detail: "Thịt bò nướng BBQ thơm lừng.",
+//     img: "/images/f3.png",
+//     price: 18,
+//   },
+//   {
+//     id: 4,
+//     name: "Pizza Gà Nướng",
+//     detail: "Gà nướng sốt cay đậm đà.",
+//     img: "/images/f4.png",
+//     price: 16,
+//   },
+//   {
+//     id: 5,
+//     name: "Pizza Rau Củ",
+//     detail: "Tươi mát với nhiều loại rau củ.",
+//     img: "/images/f5.png",
+//     price: 14,
+//   },
+//   {
+//     id: 6,
+//     name: "Pizza Xúc Xích",
+//     detail: "Xúc xích Đức thơm ngon, giòn rụm.",
+//     img: "/images/f6.png",
+//     price: 15,
+//   },
+//   {
+//     id: 7,
+//     name: "Pizza Cá Ngừ",
+//     detail: "Độc đáo với cá ngừ và phô mai.",
+//     img: "/images/f7.png",
+//     price: 17,
+//   },
+//   {
+//     id: 8,
+//     name: "Pizza Trứng",
+//     detail: "Lạ miệng với trứng ốp la vàng óng.",
+//     img: "/images/f8.png",
+//     price: 13,
+//   },
+//   {
+//     id: 9,
+//     name: "Pizza Thập Cẩm",
+//     detail: "Kết hợp đủ loại topping hấp dẫn.",
+//     img: "/images/f9.png",
+//     price: 19,
+//   },
+// ];
+
 
   return (
     <>

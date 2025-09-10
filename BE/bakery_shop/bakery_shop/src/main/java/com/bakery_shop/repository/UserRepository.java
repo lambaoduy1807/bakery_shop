@@ -1,9 +1,11 @@
 package com.bakery_shop.repository;
 
-import com.bakery_shop.model.entity.ProductEntity;
+
+import com.bakery_shop.model.entity.UserEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository extends MongoRepository<ProductEntity, String>{
+public interface UserRepository extends MongoRepository<UserEntity, String> {
+
 }

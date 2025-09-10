@@ -1,4 +1,4 @@
-package com.bakery_shop.model;
+package com.bakery_shop.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
-    String img;
+    String id;
     String name;
-    String detail;
+    String img;
+    String description;
     double price;
 }

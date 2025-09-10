@@ -1,11 +1,14 @@
-package com.bakery_shop.model;
+package com.bakery_shop.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
-@Entity
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProductEntity {
     @Id
     String id;

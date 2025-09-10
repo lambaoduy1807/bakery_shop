@@ -1,7 +1,11 @@
 package com.bakery_shop.service;
 
-import com.bakery_shop.model.ProductDTO;
+import com.bakery_shop.model.dto.ProductDTO;
+import com.bakery_shop.model.entity.ProductEntity;
 import com.bakery_shop.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +19,8 @@ ProductRepository productRepository;
 //        return product;
 //    }
 
-    public List<ProductDTO> getProducts(int page) {
-        return productRepository.getProducts( page);
+    public Page<ProductDTO> getProducts(int page) {
+        return productRepository.findAll(PageRequest.of(page, 9)).map(product->
+                new ProductDTO(product.getId(),product.getName(),product.getImg(),product.getDescription(),product.getPrice()));
     }
 }
