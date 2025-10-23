@@ -14,14 +14,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     ProductService productService;
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ApiResponse getProducts(@RequestParam int page) {
         Page<ProductDTO> data = productService.getProducts(page);
         if (data.hasContent()) {
             return ApiResponse.success(data, "Lay danh sach trang " + page + " thanh cong");
         }else{
-            return ApiResponse.success(data, "Lay danh sach trang " + page + " that bai");
+            return ApiResponse.error(500,"" ,"Lay danh sach trang " + page + " that bai");
         }
-
     }
+
+
+    @GetMapping("/getByCategories")
+    public ApiResponse getProducts(@RequestParam int page, @RequestParam String category) {
+        Page<ProductDTO> data = productService.getProductsByCategories(page,category);
+        if (data.hasContent()) {
+            return ApiResponse.success(data, "Lay danh sach trang " + page + " thanh cong");
+        }else{
+            return ApiResponse.error(500,"" ,"Lay danh sach trang " + page + " that bai");
+        }
+    }
+
+
 }

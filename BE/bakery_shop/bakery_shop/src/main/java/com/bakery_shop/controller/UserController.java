@@ -1,6 +1,7 @@
 package com.bakery_shop.controller;
 
 import com.bakery_shop.model.ApiResponse;
+import com.bakery_shop.model.request.RequestBooking;
 import com.bakery_shop.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -20,4 +21,5 @@ public class UserController {
  public ApiResponse forgotPassword() {
         return null;
  }
+
 }
