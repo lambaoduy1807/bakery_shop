@@ -1,53 +1,39 @@
 <template>
   <nav class="admin-navbar">
+    <!-- Left section -->
     <div class="left_nav">
-      <button class="btn-menu icon">
-        <font-awesome-icon :icon="['fas', 'bars']"/>
+      <button class="btn-menu">
+        <font-awesome-icon :icon="['fas', 'bars']" />
       </button>
-      <input type="text" />
+      <input type="text" placeholder="Search..." />
     </div>
 
+    <!-- Right section -->
     <div class="right_nav">
-      <!-- Message -->
-      <div class="dropdown" @click.stop="toggleDropdown('message')">
+      <div
+        v-for="item in dropdownItems"
+        :key="item.name"
+        class="dropdown"
+        @click.stop="toggleDropdown(item.name)"
+      >
         <button class="dropdown-btn">
-          <font-awesome-icon :icon="['fas', 'envelope']" class="icon"/>
-          Message
-          <font-awesome-icon :icon="['fas', 'caret-down']" class="icon"/>
+          <font-awesome-icon :icon="['fas', item.icon]" class="icon" />
+          {{ item.label }}
+          <font-awesome-icon :icon="['fas', 'caret-down']" class="icon" />
         </button>
-        <ul v-if="activeDropdown === 'message'" class="dropdown-menu">
-          <li>New messages (2)</li>
-          <li>Sent</li>
-          <li>Archived</li>
-        </ul>
-      </div>
 
-      <!-- Notification -->
-      <div class="dropdown" @click.stop="toggleDropdown('notification')">
-        <button class="dropdown-btn">
-          <font-awesome-icon :icon="['fas', 'bell']" class="icon"/>
-          Notification
-          <font-awesome-icon :icon="['fas', 'caret-down']" class="icon"/>
-        </button>
-        <ul v-if="activeDropdown === 'notification'" class="dropdown-menu">
-          <li>System alerts</li>
-          <li>Updates</li>
-          <li>Warnings</li>
-        </ul>
-      </div>
-
-      <!-- Account -->
-      <div class="dropdown" @click.stop="toggleDropdown('account')">
-        <button class="dropdown-btn">
-          <font-awesome-icon :icon="['fas', 'user']" class="icon"/>
-          Account
-          <font-awesome-icon :icon="['fas', 'caret-down']" class="icon"/>
-        </button>
-        <ul v-if="activeDropdown === 'account'" class="dropdown-menu">
-          <li>Profile</li>
-          <li>Settings</li>
-          <li @click="logout">Logout</li>
-        </ul>
+        <!-- Dropdown with transition -->
+        <Transition name="fade">
+          <ul v-if="activeDropdown === item.name" class="dropdown-menu">
+            <li
+              v-for="option in item.options"
+              :key="option"
+              @click="option === 'Logout' ? logout() : null"
+            >
+              {{ option }}
+            </li>
+          </ul>
+        </Transition>
       </div>
     </div>
   </nav>
@@ -57,6 +43,12 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const activeDropdown = ref(null)
+
+const dropdownItems = [
+  { name: 'message', label: 'Message', icon: 'envelope', options: ['New messages (2)', 'Sent', 'Archived'] },
+  { name: 'notification', label: 'Notification', icon: 'bell', options: ['System alerts', 'Updates', 'Warnings'] },
+  { name: 'account', label: 'Account', icon: 'user', options: ['Profile', 'Settings', 'Logout'] }
+]
 
 function toggleDropdown(name) {
   activeDropdown.value = activeDropdown.value === name ? null : name
@@ -70,27 +62,18 @@ function logout() {
   alert('You have logged out!')
 }
 
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
+onMounted(() => document.addEventListener('click', handleClickOutside))
+onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 </script>
 
 <style scoped>
+/* ===== Layout ===== */
 .admin-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #111827;
-
   padding: 1rem;
-}
-
-.admin-navbar * {
-  font-size: 18px;
-  color: #6C7285;
 }
 
 .left_nav,
@@ -100,56 +83,80 @@ onBeforeUnmount(() => {
   gap: 1rem;
 }
 
-.icon {
-  color: #C81313; 
-  padding: 5%;
-  border-radius: 50%;
+/* ===== Common styles ===== */
+.admin-navbar * {
+  font-size: 18px;
+  color: #6c7285;
 }
-
 
 button {
-  background: #000;
-  color: #617293;
+  background: transparent;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
   cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  color: #c81313;
+  transform: scale(1.05);
+}
+
+input {
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  color: #d1d5db;
+  outline: none;
+}
+
+input::placeholder {
+  color: #6b7280;
 }
 .btn-menu{
-  color: #C81313;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #c81313!important; 
 }
-button:hover {
-  color: #C81313;
+
+.btn-menu :deep(svg),
+.btn-menu :deep(path) {
+  color: #c81313 !important;
+  fill: #c81313 !important;
 }
-.btn-hover-red:hover{
-color: #dc2626;
-}
-/* Dropdown container */
+
+/* ===== Dropdown ===== */
 .dropdown {
   position: relative;
 }
 
-/* Dropdown button */
 .dropdown-btn {
-  background: transparent;
-  color: #617293;
-  border: none;
-  font-weight: none;
-  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: #617293;
+  transition: color 0.3s;
 }
 
 .dropdown-btn:hover {
-  color: #C81313;
-}
-.dropdown-btn:hover :deep(.icon) {
-  color: #C81313; /* icon màu đỏ */
+  color: #c81313;
 }
 
+/* Khi hover, icon cũng đổi màu theo */
+.dropdown-btn:hover :deep(svg),
+.dropdown-btn:hover :deep(path) {
+  color: #c81313 !important;
+  fill: #c81313 !important;
+   transition: color 0.3s, fill 0.1s;
+}
+/* icon kế thừa màu cha */
+.dropdown-btn :deep(.icon) {
+  color: inherit;
+  transition: color 0.3s;
+}
 
-/* Dropdown menu */
+/* ===== Dropdown menu ===== */
 .dropdown-menu {
   position: absolute;
   top: 120%;
@@ -166,9 +173,21 @@ color: #dc2626;
 .dropdown-menu li {
   padding: 0.5rem 1rem;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .dropdown-menu li:hover {
   background: #374151;
+}
+
+/* ===== Animation ===== */
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.25s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
 }
 </style>
