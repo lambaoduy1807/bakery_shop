@@ -1,8 +1,8 @@
 <template>
   <nav class="admin-navbar">
     <div class="left_nav">
-      <button class="icon icon_red">
-        <font-awesome-icon :icon="['fas', 'bars']" />
+      <button class="btn-menu icon">
+        <font-awesome-icon :icon="['fas', 'bars']"/>
       </button>
       <input type="text" />
     </div>
@@ -11,8 +11,9 @@
       <!-- Message -->
       <div class="dropdown" @click.stop="toggleDropdown('message')">
         <button class="dropdown-btn">
-          <font-awesome-icon :icon="['fas', 'envelope']" />
+          <font-awesome-icon :icon="['fas', 'envelope']" class="icon"/>
           Message
+          <font-awesome-icon :icon="['fas', 'caret-down']" class="icon"/>
         </button>
         <ul v-if="activeDropdown === 'message'" class="dropdown-menu">
           <li>New messages (2)</li>
@@ -24,8 +25,9 @@
       <!-- Notification -->
       <div class="dropdown" @click.stop="toggleDropdown('notification')">
         <button class="dropdown-btn">
-          <font-awesome-icon :icon="['fas', 'bell']" />
+          <font-awesome-icon :icon="['fas', 'bell']" class="icon"/>
           Notification
+          <font-awesome-icon :icon="['fas', 'caret-down']" class="icon"/>
         </button>
         <ul v-if="activeDropdown === 'notification'" class="dropdown-menu">
           <li>System alerts</li>
@@ -37,8 +39,9 @@
       <!-- Account -->
       <div class="dropdown" @click.stop="toggleDropdown('account')">
         <button class="dropdown-btn">
-          <font-awesome-icon :icon="['fas', 'user']" />
+          <font-awesome-icon :icon="['fas', 'user']" class="icon"/>
           Account
+          <font-awesome-icon :icon="['fas', 'caret-down']" class="icon"/>
         </button>
         <ul v-if="activeDropdown === 'account'" class="dropdown-menu">
           <li>Profile</li>
@@ -81,12 +84,13 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   align-items: center;
   background: #111827;
-  color: white;
+
   padding: 1rem;
 }
 
 .admin-navbar * {
   font-size: 18px;
+  color: #6C7285;
 }
 
 .left_nav,
@@ -97,9 +101,11 @@ onBeforeUnmount(() => {
 }
 
 .icon {
+  color: #C81313; 
   padding: 5%;
   border-radius: 50%;
 }
+
 
 button {
   background: #000;
@@ -109,19 +115,15 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
-
-.icon_red {
-  color: #dc2626;
+.btn-menu{
+  color: #C81313;
 }
-
-.icon_red:hover {
-  opacity: 0.7;
-}
-
 button:hover {
-  color: #dc2626;
+  color: #C81313;
 }
-
+.btn-hover-red:hover{
+color: #dc2626;
+}
 /* Dropdown container */
 .dropdown {
   position: relative;
@@ -130,9 +132,9 @@ button:hover {
 /* Dropdown button */
 .dropdown-btn {
   background: transparent;
-  color: white;
+  color: #617293;
   border: none;
-  font-weight: bold;
+  font-weight: none;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -140,8 +142,12 @@ button:hover {
 }
 
 .dropdown-btn:hover {
-  color: #f87171;
+  color: #C81313;
 }
+.dropdown-btn:hover :deep(.icon) {
+  color: #C81313; /* icon màu đỏ */
+}
+
 
 /* Dropdown menu */
 .dropdown-menu {
@@ -164,6 +170,5 @@ button:hover {
 
 .dropdown-menu li:hover {
   background: #374151;
-  color: #f87171;
 }
 </style>
