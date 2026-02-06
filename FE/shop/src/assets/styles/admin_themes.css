@@ -1,0 +1,26 @@
+:root {
+  /*  Primary colors (ADMIN) */
+  --color-primary-admin: #42b883;
+  --color-primary-dark-admin: #2f8f6b;
+  --color-primary-light-admin: #a6e3c6;
+
+  /*  Secondary (ADMIN) */
+  --color-secondary-admin: #35495e;
+
+  /*  Background (ADMIN) */
+  --color-bg-main-admin: #000000;
+  --color-bg-card-admin: #191c24;
+  --color-bg-chart-admin: #2a2a2a;
+
+  /*  Text (ADMIN) */
+  --color-text-main-admin: #ffffff;
+  --color-text-muted-admin: #b3b3b3;
+
+  /*  Border (ADMIN) */
+  --color-border-admin: #333333;
+
+  /*  Status (ADMIN) */
+  --color-success-admin: #4caf50;
+  --color-warning-admin: #ff9800;
+  --color-error-admin: #f44336;
+}

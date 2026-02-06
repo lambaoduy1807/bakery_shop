@@ -1,16 +1,30 @@
-package com.bakery_shop.model.dto;
+package com.bakery_shop.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
-@Data
-@AllArgsConstructor
-public class BookingDTO {
-    private String id;
+
+@Entity
+@Table(name = "bookings")
+@Getter
+@Setter
+public class BookingEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
+
     private String phone;
+
     private String email;
+
     private int numPerson;
+
     private LocalDateTime bookingDate;
+
     private LocalDateTime createdAt;
 }
