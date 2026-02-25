@@ -1,0 +1,20 @@
+package com.bakery_shop.model.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Reference;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProductDTO {
+    String id;
+    String name;
+    String img;
+    CategoryDTO category;
+    String description;
+    double price;
+}
