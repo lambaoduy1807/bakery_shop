@@ -6,7 +6,7 @@
       <router-link to="/">Home</router-link>
       <router-link to="/cart">Contact</router-link>
       <router-link to="/cart">About</router-link>
-      <router-link to="/cart">Sign Up</router-link>
+      <router-link to="/signup">Sign Up</router-link>
     </nav>
 
     <!-- SEARCH BOX -->
@@ -56,7 +56,7 @@
   text-decoration: none;
 }
 
-.nav-links a.router-link-active {
+.nav-links a.router-link-exact-active {
   text-decoration: underline;
 }
 

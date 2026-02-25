@@ -21,16 +21,14 @@ defineProps({
 </script>
 
 <style scoped>
-.product-card {
-  width: 200px; /* cố định chiều rộng card */
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 0.5rem;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.2s;
+.product-card h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0.5rem 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
 .product-card:hover {
   transform: scale(1.05);
 }

@@ -2,6 +2,7 @@ import ShopLayout from '@/layouts/ShopLayout.vue'
 import Home from '@/views/shop/Home.vue'
 import ProductDetail from '@/views/shop/ProductDetail.vue'
 import Cart from '@/views/shop/Cart.vue'
+import SignUP from '@/views/shop/SignUP.vue'
 
 export default [
   {
@@ -11,6 +12,7 @@ export default [
       { path: '', name: 'home', component: Home },
       { path: 'product/:id', name: 'product-detail', component: ProductDetail },
       { path: 'cart', name: 'cart', component: Cart },
+      { path: 'signup', name: 'signup', component: SignUP},
     ],
   },
 ]
