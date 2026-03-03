@@ -151,16 +151,4 @@ const isLogin = ref(false);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
-/* Button đăng ký */
-.btn-signup {
-  width: 100%;
-  padding: 12px;
-  background: red;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
-  font-weight: bold;
-}
 </style>

@@ -1,22 +1,36 @@
 package com.bakery_shop.model.entity;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Document(collection = "users")
+import java.util.List;
+import java.util.UUID;
+@Entity
+@Table(name = "User")
+@Getter
+@Setter
 public class UserEntity {
     @Id
-    String id;
-    String userName;
-    String email;
-    String password;
+    private UUID id;
+    private String name;
+    private String password;
+    private String phoneNumber;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String address;
 
+    @ManyToOne
+    @JoinColumn(name = "roleID")
+    private RoleEntity role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private CartEntity.Cart cart;
+
+    @OneToMany(mappedBy = "user")
+    private List<OrderEntity> orders;
+
+    @OneToMany(mappedBy = "user")
+    private List<FavoriteProductsEntity> favorites;
 }
+

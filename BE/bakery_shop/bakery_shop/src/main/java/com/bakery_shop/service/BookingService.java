@@ -2,7 +2,6 @@ package com.bakery_shop.service;
 
 import com.bakery_shop.model.Mapper;
 import com.bakery_shop.model.dto.BookingDTO;
-import com.bakery_shop.model.entity.BookingEntity;
 import com.bakery_shop.model.request.RequestBooking;
 import com.bakery_shop.repository.BookingRepository;
 import lombok.AllArgsConstructor;

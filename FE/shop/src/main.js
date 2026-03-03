@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 import './style.css'
 import '@/assets/styles/theme.css'
 import '@/assets/styles/admin_themes.css'
+import '@/assets/styles/shop.css'
 // --- Font Awesome ---
 // import { library } from '@fortawesome/fontawesome-svg-core'
 // import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
