@@ -1,25 +1,27 @@
 package com.bakery_shop.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
+@Entity
+@Table(name = "cartitem")
 public class CartItemEntity {
-    @Entity
-    @Table(name = "cartitem")
-    public class CartItem {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
 
-        private Integer quantity;
-        private Double price;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        @ManyToOne
-        @JoinColumn(name = "cartID")
-        private CartEntity cart;
+    private Integer quantity;
+    private Double price;
 
-        @ManyToOne
-        @JoinColumn(name = "productID")
-        private ProductEntity product;
-    }
+    @ManyToOne
+    @JoinColumn(name = "cartID")
+    private CartEntity cart;
+
+    @ManyToOne
+    @JoinColumn(name = "productID")
+    private ProductEntity product;
+
 }

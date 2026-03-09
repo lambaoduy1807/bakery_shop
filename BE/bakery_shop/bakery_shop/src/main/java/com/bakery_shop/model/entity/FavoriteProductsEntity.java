@@ -1,9 +1,11 @@
 package com.bakery_shop.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "favoritesproduct")
+@Data
 public class FavoriteProductsEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

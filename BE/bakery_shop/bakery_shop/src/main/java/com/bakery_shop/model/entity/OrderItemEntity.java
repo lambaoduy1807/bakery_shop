@@ -1,9 +1,11 @@
 package com.bakery_shop.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "orderitem")
+@Data
 public class OrderItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +20,6 @@ public class OrderItemEntity {
 
     @ManyToOne
     @JoinColumn(name = "orderID")
-    private OrderEntiry order;
+    private OrderEntity order;
 
 }

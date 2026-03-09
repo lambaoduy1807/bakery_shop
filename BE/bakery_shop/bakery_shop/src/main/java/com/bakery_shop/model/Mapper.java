@@ -1,134 +1,82 @@
 package com.bakery_shop.model;
 
-import com.bakery_shop.model.dto.*;
-import com.bakery_shop.model.entity.*;
-import com.bakery_shop.model.request.FeedbackRequest;
-import com.bakery_shop.model.request.RequestBooking;
+import com.bakery_shop.model.dto.RoleDTO;
+import com.bakery_shop.model.dto.UserDTO;
+import com.bakery_shop.model.entity.RoleEntity;
+import com.bakery_shop.model.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
 public class Mapper {
 
-    // ======================
-    // UTILS
-    // ======================
-    private Long parseLongSafe(String s) {
-        try {
-            return (s == null || s.isBlank()) ? null : Long.parseLong(s);
-        } catch (NumberFormatException e) {
-            return null; // hoặc throw custom exception tùy yêu cầu
-        }
-    }
-    private String parseStringSafe(Long num) {
-        try {
-            return (num == 0) ? null : (num+"") ;
-        } catch (NumberFormatException e) {
-            return null; // hoặc throw custom exception tùy yêu cầu
-        }
-    }
-    private Integer parseIntegerSafe(String s) {
-        try {
-            return (s == null || s.isBlank()) ? null : Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return null; // hoặc throw custom exception tùy yêu cầu
-        }
-    }
-    // ======================
-    // PRODUCT
-    // ======================
-    public ProductDTO mapProductEntityToDTO(ProductEntity product) {
-        return new ProductDTO(
-                product.getId()+"",
-                product.getName(),
-                product.getImg(),
-                product.getDescription(),
-                product.getPrice()
-        );
+    // ============= ENTITY → DTO =============
+    public static UserDTO toUserDTO(UserEntity entity) {
+        if (entity == null) return null;
+
+        return UserDTO.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .email(entity.getEmail())
+                .phoneNumber(entity.getPhoneNumber())
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
+                .address(entity.getAddress())
+                .roleName(entity.getRole() != null ? entity.getRole().getName() : null)
+
+                // Lấy danh sách ID Orders
+                .orderIds(entity.getOrders() != null ?
+                        entity.getOrders()
+                                .stream()
+                                .map(order -> order.getId())
+                                .collect(Collectors.toList())
+                        : null)
+
+                // Lấy danh sách ID FavoriteProducts
+                .favoriteProductIds(entity.getFavorites() != null ?
+                        entity.getFavorites()
+                                .stream()
+                                .map(fav -> fav.getId())
+                                .collect(Collectors.toList())
+                        : null)
+                .build();
     }
 
-    public ProductEntity mapProductDTOToEntity(ProductDTO dto) {
-        ProductEntity entity = new ProductEntity();
-        entity.setId(parseLongSafe(dto.getId()));  // DTO đã là Long → giữ nguyên
+
+    // ============= DTO → ENTITY =============
+    public static UserEntity toUserEntity(UserDTO dto) {
+        if (dto == null) return null;
+
+        UserEntity entity = new UserEntity();
+
+        entity.setId(dto.getId() != null ? dto.getId() : UUID.randomUUID());
         entity.setName(dto.getName());
-        entity.setImg(dto.getImg());
-        entity.setDescription(dto.getDescription());
-        entity.setPrice(dto.getPrice());
+        entity.setEmail(dto.getEmail());
+        entity.setPhoneNumber(dto.getPhoneNumber());
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setAddress(dto.getAddress());
+
+        // ⚠ Không set password (DTO không chứa password)
+        // ⚠ Không set quan hệ role, cart, orders, favorites tại đây
+        // Các quan hệ nên được set ở Service để tránh lỗi vòng lặp hoặc null
+
         return entity;
     }
-
-    // ======================
-    // BOOKING
-    // ======================
-    public BookingEntity mapRequestToBookingEntity(RequestBooking request) {
-        BookingEntity entity = new BookingEntity();
-        entity.setId(null); // <--- map String → Long
-        entity.setName(request.getName());
-        entity.setEmail(request.getEmail());
-        entity.setPhone(request.getPhone());
-        entity.setBookingDate(LocalDateTime.parse(request.getDate()));
-        entity.setNumPerson(request.getNumPerson());
+    public static RoleEntity toRoleEntity(RoleDTO dto) {
+        if (dto == null) return null;
+        RoleEntity entity= new RoleEntity(dto.getName());
         return entity;
     }
-
-    public BookingDTO mapBookingEntityToDTO(BookingEntity entity) {
-        return new BookingDTO(
-                entity.getId()+"",
-                entity.getName(),
-                entity.getPhone(),
-                entity.getEmail(),
-                entity.getNumPerson(),
-                entity.getBookingDate(),
-                entity.getCreatedAt()
-        );
-    }
-
-    // ======================
-    // CATEGORY
-    // ======================
-    public CategoryDTO toCategoryDTO(CategoryEntity entity) {
-        return new CategoryDTO(
-               parseStringSafe( entity.getId()),
-                entity.getName(),
-                entity.getNumInStock()+""
-        );
-    }
-
-    public CategoryEntity toCategoryEntity(CategoryDTO dto) {
-        CategoryEntity entity = new CategoryEntity();
-        entity.setId(parseLongSafe(dto.getId())); // đã là Long
-        entity.setName(dto.getName());
-        entity.setNumInStock(parseIntegerSafe(dto.getNumInStock()));
-        return entity;
-    }
-
-    // ======================
-    // FEEDBACK
-    // ======================
-    public FeedbackDTO toFeedbackDTO(FeedbackEntity entity) {
-        FeedbackDTO dto = new FeedbackDTO();
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setMessage(entity.getMessage());
+    public static RoleDTO toRoleDTO(RoleEntity entity) {
+        if (entity == null) return null;
+        RoleDTO dto = new RoleDTO(entity.getId(),entity.getName());
         return dto;
     }
-
-    public FeedbackEntity toFeedbackEntity(FeedbackDTO dto) {
-        FeedbackEntity entity = new FeedbackEntity();
-        entity.setId(dto.getId()); // nếu DTO là String, đổi thành parseLongSafe(dto.getIdString())
-        entity.setName(dto.getName());
-        entity.setMessage(dto.getMessage());
-        return entity;
-    }
-    // FeedbackRequest -> FeedbackEntity
-    public FeedbackEntity toFeedbackEntity(FeedbackRequest request) {
-        FeedbackEntity entity = new FeedbackEntity();
-        entity.setName(request.getName());
-        entity.setMessage(request.getMessage());
-        return entity;
-    }
-
 }
+
+

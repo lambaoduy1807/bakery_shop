@@ -1,6 +1,7 @@
 package com.bakery_shop.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "products")
-@Getter
-@Setter
+@Data
 public class ProductEntity {
 
     @Id
@@ -35,7 +35,7 @@ public class ProductEntity {
     private List<OrderItemEntity> orderItems;
 
     @OneToMany(mappedBy = "product")
-    private List<CartItemEntity.CartItem> cartItems;
+    private List<CartItemEntity> cartItems;
 
     @OneToMany(mappedBy = "product")
     private List<FavoriteProductsEntity> favorites;

@@ -1,26 +1,42 @@
 package com.bakery_shop.controller;
 
 import com.bakery_shop.model.ApiResponse;
+import com.bakery_shop.model.dto.UserDTO;
 import com.bakery_shop.model.request.LoginRequest;
-import com.bakery_shop.model.request.RequestBooking;
+import com.bakery_shop.model.request.RegisterRequest;
+import com.bakery_shop.model.response.TokenResponse;
+import com.bakery_shop.security.SecurityUtil;
 import com.bakery_shop.service.UserService;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    @Autowired
     UserService userService;
-    @GetMapping("login")
- public ApiResponse login(LoginRequest loginRequest) {
-    return ApiResponse.success(userService.login(loginRequest),"Login successful");
- }
- @PostMapping("register")
- public ApiResponse register(@RequestParam String username,@RequestParam String email,@RequestParam String password) {
-        return userService.register(username,email,password);
- }
- public ApiResponse forgotPassword() {
-        return null;
- }
 
+
+    @PostMapping("login")
+    public ApiResponse login(@RequestBody LoginRequest loginRequest) {
+            return ApiResponse.success(userService.login(loginRequest), "Login successful");
+
+    }
+
+    @PostMapping("register")
+    public ApiResponse register(@RequestBody RegisterRequest registerRequest) {
+        return ApiResponse.success(userService.register(registerRequest), "Register successful");
+    }
+
+    @PutMapping("update")
+    public ApiResponse updateUser(@RequestBody UserDTO updateRequest) {
+        UUID userId = SecurityUtil.getCurrentUserId();
+        return ApiResponse.success( userService.update(updateRequest, userId), "Update user successful");
+    }
+    @DeleteMapping("delete")
+    public ApiResponse deleteUser(@RequestBody UUID userId) {
+        return ApiResponse.success(userService.delete(userId), "delete successful");
+    }
 }
