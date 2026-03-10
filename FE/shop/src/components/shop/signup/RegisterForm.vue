@@ -12,12 +12,14 @@
       <input type="password" placeholder="Mật khẩu" />
     </div>
 
-    <button class="btn-signup">Đăng ký</button>
+    <button class="red-btn">Đăng ký</button>
   </div>
 </template>
 
 <script setup></script>
 
-<style >
-
+<style scoped>
+.red-btn {
+width: 100%!important;;
+}
 </style>

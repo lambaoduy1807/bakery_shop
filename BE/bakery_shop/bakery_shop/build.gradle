@@ -1,46 +1,77 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.5.5'
-	id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
+    id 'org.springframework.boot' version '3.5.5'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com'
 version = '0.0.1-SNAPSHOT'
-description = 'Demo project for Spring Boot'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	// Starter cơ bản
-	implementation 'org.springframework.boot:spring-boot-starter'
 
-	// Web (cho @RestController, @GetMapping, @RequestMapping, …)
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    // ===============================
+    // Spring Boot Core
+    // ===============================
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	// Database (chọn 1 cái, ví dụ H2 để dev/test nhanh)
-	runtimeOnly 'com.h2database:h2'
-	// runtimeOnly 'mysql:mysql-connector-j' // nếu bạn dùng MySQL
+    // ===============================
+    // Security
+    // ===============================
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
-	// Lombok (cho @Data, @NoArgsConstructor, @AllArgsConstructor, @Builder, …)
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	// Mongo DB
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	//load env
-	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
-	// Test
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // OAuth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.security:spring-security-oauth2-jose'
+
+    // ===============================
+    // JWT
+    // ===============================
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // ===============================
+    // Database
+    // ===============================
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // ===============================
+    // Flyway (Database Migration)
+    // ===============================
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-mysql'
+
+    // ===============================
+    // Lombok
+    // ===============================
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // ===============================
+    // Env file (.env)
+    // ===============================
+    implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
+    // ===============================
+    // Test
+    // ===============================
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

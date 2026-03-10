@@ -1,18 +1,21 @@
 package com.bakery_shop.model.entity;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
+
+@Entity
+@Table(name = "categories")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Document(collection = "categories")
 public class CategoryEntity {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-    private String num_in_stock;
+    private Integer quantityInStock;
+    @OneToMany(mappedBy = "category")
+    private List<ProductEntity> products;
 }

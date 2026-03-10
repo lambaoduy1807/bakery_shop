@@ -17,4 +17,7 @@ public class ProductDTO {
     CategoryDTO category;
     String description;
     double price;
+
+    public ProductDTO(String id, String name, String img, String description, double price) {
+    }
 }

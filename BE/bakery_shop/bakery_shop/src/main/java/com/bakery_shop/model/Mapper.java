@@ -1,64 +1,82 @@
 package com.bakery_shop.model;
 
-import com.bakery_shop.model.dto.BookingDTO;
-import com.bakery_shop.model.dto.CategoryDTO;
-import com.bakery_shop.model.dto.ProductDTO;
-import com.bakery_shop.model.entity.BookingEntity;
-import com.bakery_shop.model.entity.CategoryEntity;
-import com.bakery_shop.model.entity.ProductEntity;
-import com.bakery_shop.model.request.RequestBooking;
-import lombok.AllArgsConstructor;
-
+import com.bakery_shop.model.dto.RoleDTO;
+import com.bakery_shop.model.dto.UserDTO;
+import com.bakery_shop.model.entity.RoleEntity;
+import com.bakery_shop.model.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
 public class Mapper {
 
-    public ProductDTO mapProductEntityToDTO(ProductEntity product) {
-        return new ProductDTO(
-                product.getId(),
-                product.getName(),
-                product.getImg(),
-                product.getDescription(),
-                product.getPrice()
-        );
+    // ============= ENTITY → DTO =============
+    public static UserDTO toUserDTO(UserEntity entity) {
+        if (entity == null) return null;
+
+        return UserDTO.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .email(entity.getEmail())
+                .phoneNumber(entity.getPhoneNumber())
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
+                .address(entity.getAddress())
+                .roleName(entity.getRole() != null ? entity.getRole().getName() : null)
+
+                // Lấy danh sách ID Orders
+                .orderIds(entity.getOrders() != null ?
+                        entity.getOrders()
+                                .stream()
+                                .map(order -> order.getId())
+                                .collect(Collectors.toList())
+                        : null)
+
+                // Lấy danh sách ID FavoriteProducts
+                .favoriteProductIds(entity.getFavorites() != null ?
+                        entity.getFavorites()
+                                .stream()
+                                .map(fav -> fav.getId())
+                                .collect(Collectors.toList())
+                        : null)
+                .build();
     }
 
-    public ProductEntity mapProductDTOToEntity(ProductDTO dto) {
-        ProductEntity entity = new ProductEntity();
-        entity.setId(dto.getId());
+
+    // ============= DTO → ENTITY =============
+    public static UserEntity toUserEntity(UserDTO dto) {
+        if (dto == null) return null;
+
+        UserEntity entity = new UserEntity();
+
+        entity.setId(dto.getId() != null ? dto.getId() : UUID.randomUUID());
         entity.setName(dto.getName());
-        entity.setImg(dto.getImg());
-        entity.setDescription(dto.getDescription());
-        entity.setPrice(dto.getPrice());
+        entity.setEmail(dto.getEmail());
+        entity.setPhoneNumber(dto.getPhoneNumber());
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setAddress(dto.getAddress());
+
+        // ⚠ Không set password (DTO không chứa password)
+        // ⚠ Không set quan hệ role, cart, orders, favorites tại đây
+        // Các quan hệ nên được set ở Service để tránh lỗi vòng lặp hoặc null
+
         return entity;
     }
-
-    public BookingEntity mapRequestToBookingEntity(RequestBooking request) {
-        BookingEntity entity = new BookingEntity();
-        entity.setName(request.getName());
-        entity.setEmail(request.getEmail());
-        entity.setPhone(request.getPhone());
-        entity.setBookingDate(LocalDateTime.parse(request.getDate()));
-        entity.setNumPerson(request.getNumPerson());
+    public static RoleEntity toRoleEntity(RoleDTO dto) {
+        if (dto == null) return null;
+        RoleEntity entity= new RoleEntity(dto.getName());
         return entity;
     }
-
-    public BookingDTO mapBookingEntityToDTO(BookingEntity entity) {
-        return new BookingDTO(entity.getId(),entity.getName(),entity.getPhone(),entity.getEmail(),entity.getNumPerson(),entity.getBookingDate(),entity.getCreatedAt());
-    }
-
-    // category Entity -> DTO
-    public CategoryDTO toCategoryDTO(CategoryEntity entity) {
-        return new CategoryDTO(entity.getId(), entity.getName(), entity.getNum_in_stock());
-    }
-
-    // category DTO -> Entity
-    public CategoryEntity toCategoryEntity(CategoryDTO dto) {
-        return new CategoryEntity(dto.getId(), dto.getName(), dto.getNumInStock());
+    public static RoleDTO toRoleDTO(RoleEntity entity) {
+        if (entity == null) return null;
+        RoleDTO dto = new RoleDTO(entity.getId(),entity.getName());
+        return dto;
     }
 }
+
+

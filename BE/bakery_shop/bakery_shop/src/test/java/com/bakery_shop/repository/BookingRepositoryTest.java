@@ -1,6 +1,5 @@
 package com.bakery_shop.repository;
 
-import com.bakery_shop.model.entity.BookingEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

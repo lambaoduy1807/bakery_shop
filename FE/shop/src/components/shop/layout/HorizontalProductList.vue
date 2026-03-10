@@ -5,7 +5,7 @@
     <div class="horizontal-list">
       <ProductCard v-for="item in products" :key="item.id" :product="item" />
     </div>
-    <button class="view-all-btn">View all product</button>
+    <button class="red-btn">View all product</button>
 
   </section>
 </template>
