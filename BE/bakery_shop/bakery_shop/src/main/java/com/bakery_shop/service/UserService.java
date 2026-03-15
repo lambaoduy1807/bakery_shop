@@ -30,6 +30,9 @@ public class UserService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private Mapper mapper;
+
     private static final String EMAIL_REGEX =
             "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
@@ -48,10 +51,10 @@ public class UserService {
             throw new InvalidCredentialException("Password is incorrect");
         }
 
-        String accessToken = jwtUtil.generateToken(Mapper.toUserDTO(user));
+        String accessToken = jwtUtil.generateToken(mapper.toUserDTO(user));
         String refreshToken = jwtUtil.generateRefreshToken(user.getId());
 
-        return new TokenResponse(refreshToken, accessToken, Mapper.toUserDTO(user));
+        return new TokenResponse(refreshToken, accessToken, mapper.toUserDTO(user));
     }
 
     public UserDTO register(RegisterRequest request) {
@@ -82,7 +85,7 @@ public class UserService {
             throw new IllegalArgumentException("Email hoặc số điện thoại không hợp lệ");
         }
 
-        return Mapper.toUserDTO(res);
+        return mapper.toUserDTO(res);
     }
 
     public UserDTO update(UserDTO request, UUID userId) {
@@ -92,9 +95,9 @@ public class UserService {
 
         request.setId(userId);
 
-        UserEntity res = userRepository.save(Mapper.toUserEntity(request));
+        UserEntity res = userRepository.save(mapper.toUserEntity(request));
 
-        return Mapper.toUserDTO(res);
+        return mapper.toUserDTO(res);
     }
 
     public UserDTO delete(UUID userId) {
@@ -106,6 +109,6 @@ public class UserService {
 
         UserEntity res = userRepository.save(user);
 
-        return Mapper.toUserDTO(res);
+        return mapper.toUserDTO(res);
     }
 }

@@ -15,6 +15,9 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private Mapper mapper;
+
     // GET role by name
     public RoleDTO getRole(String name) {
 
@@ -24,7 +27,7 @@ public class RoleService {
             throw new RuntimeException("Role not found");
         }
 
-        return Mapper.toRoleDTO(role);
+        return mapper.toRoleDTO(role);
     }
     public RoleEntity getRoleEntity(String name) {
         return roleRepository.getRoleEntityByName(name);
@@ -33,7 +36,7 @@ public class RoleService {
     public List<RoleDTO> getAllRoles() {
         return roleRepository.findAll()
                 .stream()
-                .map(Mapper::toRoleDTO)
+                .map(mapper::toRoleDTO)
                 .toList();
     }
 
@@ -43,7 +46,7 @@ public class RoleService {
         RoleEntity role = roleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
-        return Mapper.toRoleDTO(role);
+        return mapper.toRoleDTO(role);
     }
 
     // CREATE role
@@ -55,9 +58,9 @@ public class RoleService {
             throw new RuntimeException("Role already exists");
         }
 
-        RoleEntity role = Mapper.toRoleEntity(roleDTO);
+        RoleEntity role = mapper.toRoleEntity(roleDTO);
 
-        return Mapper.toRoleDTO(roleRepository.save(role));
+        return mapper.toRoleDTO(roleRepository.save(role));
     }
 
     // UPDATE role
@@ -68,7 +71,7 @@ public class RoleService {
 
         role.setName(roleRequest.getName());
 
-        return Mapper.toRoleDTO(roleRepository.save(role));
+        return mapper.toRoleDTO(roleRepository.save(role));
     }
 
     // DELETE role

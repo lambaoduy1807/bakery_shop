@@ -6,18 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Reference;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
-    String id;
-    String name;
-    String img;
-    CategoryDTO category;
-    String description;
-    double price;
-
-    public ProductDTO(String id, String name, String img, String description, double price) {
-    }
+    private UUID id;
+    private String name;
+    private String detail;
+    private String img;
+    private Double price;
+    private Double rating;
+    private LocalDateTime dateAdd;
+    private LocalDateTime dateModify;
+    private Integer quantityInStock;
+    private Boolean isDelete;
+    private String category;
 }
